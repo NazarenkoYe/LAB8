@@ -1,31 +1,31 @@
 #include <stdio.h>
-#include <math.h>
+#include <string.h>
 
-int circleintersection(int x1, int y1, int r1, int x2, int y2, int r2) {
-    double distance = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-    if (distance > r1 + r2) {
-        return 0;
-    } else if (distance == 0 && r1 == r2) {
-        return -1;
-    } else if (distance < fabs(r1 - r2)) {
-        return 0;
-    } else if (distance == r1 + r2 || distance == fabs(r1 - r2)) {
-        return 1;
-    } else {
-        return 2;
+
+long long factorial(int n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}
+long long countanagrams(char *word) {
+    int len = strlen(word);
+    int count[26] = {0};
+    for (int i = 0; i < len; ++i) {
+        count[word[i] - 'A']++;
     }
+    long long result = factorial(len);
+    for (int i = 0; i < 26; ++i) {
+        if (count[i] > 1) {
+            result /= factorial(count[i]);
+        }
+    }
+    return result;
 }
 int main() {
-    int x1, y1, r1, x2, y2, r2;
-    printf("Enter the coordinates and radius of the first circle (x1, y1, r1): ");
-    scanf("%d %d %d", &x1, &y1, &r1);
-    printf("Enter the coordinates and radius of the second circle (x2, y2, r2): ");
-    scanf("%d %d %d", &x2, &y2, &r2);
-    int intersectionpoints = circleintersection(x1, y1, r1, x2, y2, r2);
-    if (intersectionpoints == -1) {
-        printf("The circles coincide, infinite intersection points\n");
-    } else {
-        printf("Number of intersection points: %d\n", intersectionpoints);
-    }
+    char word[15];
+    printf("Enter a word: ");
+    scanf("%s", word);
+    long long numanagrams = countanagrams(word);
+    printf("Number of anagrams: %lld\n", numanagrams);
     return 0;
 }
+
